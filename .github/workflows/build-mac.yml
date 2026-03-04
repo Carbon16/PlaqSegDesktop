@@ -33,7 +33,7 @@ jobs:
       - name: install frontend dependencies
         run: yarn install # Keep as yarn or change to npm/pnpm as needed
 
-      - uses: tauri-apps/tauri-action@v1
+      - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # These flags tell Tauri to skip the official Apple signing/notarization process
