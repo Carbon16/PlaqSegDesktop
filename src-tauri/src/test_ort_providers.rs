@@ -1,0 +1,1 @@
+use ort::{execution_providers::{CUDAExecutionProvider, DirectMLExecutionProvider}, session::builder::SessionBuilder}; pub fn test() { let mut eps = Vec::new(); if let Some(e) = CUDAExecutionProvider::default().build().ok() { eps.push(e); } if let Some(e) = DirectMLExecutionProvider::default().build().ok() { eps.push(e); } }

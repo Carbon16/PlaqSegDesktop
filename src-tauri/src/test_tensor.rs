@@ -1,0 +1,1 @@
+use ndarray::Array4; use ort::session::Session; use ort::value::Tensor; pub fn test(session: &Session, tensor: Array4<f32>) { let _value = Tensor::from_array(tensor).unwrap(); let _ = session.run(ort::inputs! { "input" => _value }); }

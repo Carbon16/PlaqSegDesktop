@@ -1,0 +1,40 @@
+[package]
+name = "plaqsegdesktop"
+version = "0.1.0"
+description = "PlaqSeg Desktop — Tiled YOLO plaque segmentation"
+authors = ["Phage Collection Project"]
+edition = "2021"
+
+[lib]
+name = "plaqsegdesktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener  = "2"
+tauri-plugin-dialog  = "2"
+tauri-plugin-fs      = "2"
+tauri-plugin-shell   = "2"
+
+serde       = { version = "1", features = ["derive"] }
+serde_json  = "1"
+tokio       = { version = "1", features = ["full"] }
+rayon       = "1"
+image       = { version = "0.25", default-features = false, features = ["jpeg", "png", "tiff", "bmp"] }
+ndarray     = "0.16"
+anyhow      = "1"
+
+# ONNX Runtime for .onnx models (GPU + CPU)
+ort = { version = "2.0.0-rc.11", features = ["cuda", "directml", "copy-dylibs"] }
+
+[profile.dev]
+incremental = true # Compile your binary in smaller steps.
+
+[profile.release]
+codegen-units = 1 # Allows LLVM to perform better optimization.
+lto = true # Enables link-time-optimizations.
+panic = "abort" # Higher performance by disabling panic handlers.
+strip = true # Ensures debug symbols are removed.
