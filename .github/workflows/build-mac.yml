@@ -1,46 +1,31 @@
-name: 'publish-macos'
+name: 'Generate macOS CSR'
 
 on:
-  push:
-    branches:
-      - release
+  workflow_dispatch:
 
 jobs:
-  publish-tauri:
-    permissions:
-      contents: write
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: 'macos-latest'
-            args: '--target aarch64-apple-darwin'
-
-    runs-on: ${{ matrix.platform }}
+  generate-csr:
+    runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Generate private key and CSR
+        run: |
+          openssl req -new -newkey rsa:2048 -nodes \
+            -keyout developer_id.key \
+            -out developer_id.csr \
+            -subj "/emailAddress=lgs1g24@soton.ac.uk/CN=PlaqSeg Desktop Developer ID/O=Phage Collection Project/C=GB"
+          echo "✅ CSR generated successfully"
+          openssl req -in developer_id.csr -noout -subject
 
-      - name: setup node
-        uses: actions/setup-node@v4
+      - name: Upload CSR
+        uses: actions/upload-artifact@v4
         with:
-          node-version: lts/*
+          name: developer-id-csr
+          path: developer_id.csr
+          retention-days: 7
 
-      - name: install Rust stable
-        uses: dtolnay/rust-toolchain@stable
+      - name: Upload Private Key
+        uses: actions/upload-artifact@v4
         with:
-          targets: aarch64-apple-darwin,x86_64-apple-darwin
-
-      - name: install frontend dependencies
-        run: yarn install # Keep as yarn or change to npm/pnpm as needed
-
-      - uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # These flags tell Tauri to skip the official Apple signing/notarization process
-          APPLE_SKIP_NOTARIZATION: true 
-        with:
-          tagName: app-v__VERSION__
-          releaseName: 'App v__VERSION__'
-          releaseDraft: true
-          prerelease: false
-          args: ${{ matrix.args }}
+          name: developer-id-private-key
+          path: developer_id.key
+          retention-days: 1
