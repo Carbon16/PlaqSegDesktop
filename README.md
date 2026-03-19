@@ -11,16 +11,15 @@
 
 | Feature | Details |
 |---|---|
-| **Native Rust inference** | Zero Python dependency at runtime — ONNX Runtime + TFLite crates |
+| **Native Rust inference** | Zero Python dependency at runtime - ONNX Runtime + TFLite crates |
 | **6 model variants** | nano/small × ONNX (GPU/CPU) and float16/float32 TFLite (CPU) |
-| **Tiling always on** | 1280 px tiles with 1024 px stride — handles high-res microscopy images |
+| **Tiling** | 1280 px tiles with 1024 px stride — handles high-res images |
 | **Multi-worker batches** | Rayon thread pool — set workers to match your CPU core count |
 | **GPU support** | CUDA and DirectML (Windows) via ONNX Runtime execution providers |
 | **Drag & drop** | Drop single images or whole folders onto the queue |
 | **Real-time progress** | Per-image status, live plaque count, and elapsed timer |
 | **Export** | JSON (full detections) and CSV (one row per detection) |
 | **Dark / Light theme** | Persisted across sessions |
-| **GitHub Actions** | Automated builds for Windows (`.msi`/`.exe`) and Linux (`.AppImage`/`.deb`) |
 
 ---
 
@@ -35,8 +34,6 @@
 | `nano-float16` | `nano_float16.tflite` | TFLite | ❌ CPU only | Fast & lightweight |
 | `small-float16` | `small_float16.tflite` | TFLite | ❌ CPU only | Good accuracy–size balance |
 
-> **Note:** The `.onnx` files must be exported from the provided `.pt` files before use (see [Setup](#setup) below). The `.tflite` files work out of the box.
-
 ---
 
 ## Installation
@@ -45,25 +42,6 @@ Download the latest release from the GitHub Releases page:
 
 - **Windows**: Run the `.msi` installer or the `.exe` NSIS installer
 - **Linux**: Run the `.AppImage` directly or install the `.deb` package
-
----
-
-## Setup
-
-### 1. Export PyTorch models to ONNX (one-time step)
-
-The bundled `.pt` models must be converted to ONNX for GPU inference:
-
-```bash
-pip install ultralytics
-python scripts/export_models.py
-```
-
-This will create `nano.onnx` and `small.onnx` in the `models/` folder. Existing files are skipped.
-
-### 2. Point the app to your models folder
-
-On first launch, click **Browse** in the top-left panel to select your `models/` folder. The app will auto-detect all supported model files.
 
 ---
 
@@ -147,27 +125,6 @@ PlaqSegDesktop/
 │   └── export_models.py        # PyTorch → ONNX export helper
 └── .gitlab-ci.yml              # CI/CD pipeline
 ```
-
----
-
-## CI/CD
-
-Managed by GitHub Actions (`.github/workflows/release.yml`):
-
-| Workflow | Trigger |
-|---|---|
-| `Release` | Tags matching `v*` |
-
-To publish a release:
-
-```bash
-git tag v0.2.0
-git push origin v0.2.0
-```
-
-The pipeline will build both platform installers and create a GitHub Release draft.
-
----
 
 ## License
 
