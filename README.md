@@ -3,7 +3,7 @@
 > **Tiled YOLO plaque segmentation — native Rust desktop application.**  
 > Built with Tauri 2 + SvelteKit 5. Runs on Windows and Linux. No Python required at runtime.
 
-[![GitHub Actions CI](https://github.com/your-username/plaqseg-desktop/actions/workflows/release.yml/badge.svg)](https://github.com/your-username/plaqseg-desktop/actions)
+[![GitHub Actions CI](https://github.com/carbon16/PlaqSegDesktop/actions/workflows/release.yml/badge.svg)](https://github.com/your-username/plaqseg-desktop/actions)
 
 ---
 
