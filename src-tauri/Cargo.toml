@@ -1,6 +1,6 @@
 [package]
 name = "plaqsegdesktop"
-version = "0.1.0"
+version = "0.2.1"
 description = "PlaqSeg Desktop — Tiled YOLO plaque segmentation"
 authors = ["Phage Collection Project"]
 edition = "2021"
